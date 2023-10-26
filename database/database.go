@@ -16,7 +16,9 @@ func CreateDBTables(db *sql.DB) error {
             season VARCHAR(255),
             week VARCHAR(255),
             day VARCHAR(255),
-            title VARCHAR(255)
+            title VARCHAR(255),
+            psalms JSON,
+            lessons JSON
         );
             CREATE TABLE IF NOT EXISTS year_two_table (
             id SERIAL PRIMARY KEY,
@@ -24,7 +26,9 @@ func CreateDBTables(db *sql.DB) error {
             season VARCHAR(255),
             week VARCHAR(255),
             day VARCHAR(255),
-            title VARCHAR(255)
+            title VARCHAR(255),
+            psalms JSON,
+            lessons JSON
         );
             CREATE TABLE IF NOT EXISTS holy_days_table (
             id SERIAL PRIMARY KEY,
@@ -32,7 +36,9 @@ func CreateDBTables(db *sql.DB) error {
             season VARCHAR(255),
             week VARCHAR(255),
             day VARCHAR(255),
-            title VARCHAR(255)
+            title VARCHAR(255),
+            psalms JSON,
+            lessons JSON
         );
 
             CREATE TABLE IF NOT EXISTS special_occasions_table (
@@ -41,7 +47,9 @@ func CreateDBTables(db *sql.DB) error {
             season VARCHAR(255),
             week VARCHAR(255),
             day VARCHAR(255),
-            title VARCHAR(255)
+            title VARCHAR(255),
+            psalms JSON,
+            lessons JSON
         );
     `)
 	if err != nil {
