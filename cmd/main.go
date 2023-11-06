@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"dolapi/database"
+	"dolapi/handlers"
 )
 
 func main() {
@@ -30,6 +31,9 @@ func main() {
 	r.HandleFunc("/", func(resp http.ResponseWriter, req *http.Request) {
 		fmt.Fprintln(resp, "running..")
 	})
+	r.HandleFunc("/{table}/{season}/{week}/{day}/psalms", func(w http.ResponseWriter, r *http.Request) {
+		handlers.PsalmsHandler(w, r, db)
+	}).Methods("GET")
 	log.Print("server listening on port", port)
 	log.Fatalln(http.ListenAndServe(port, r))
 }

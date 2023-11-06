@@ -68,11 +68,11 @@ func InitDB() (*sql.DB, error) {
 	var err error
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error opening database connection: %v", err)
 	}
 	if err = db.Ping(); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error pinging database: %v", err)
 	}
-
+	fmt.Println("db open")
 	return db, nil
 }

@@ -35,8 +35,17 @@ func SeedDatabase(db *sql.DB) error {
 		}
 		tablename := tableNames[i]
 		for _, dol := range jsonData {
-			_, err := db.Exec("INSERT INTO "+tablename+" (year, season, week, day, title) VALUES ($1, $2, $3, $4, $5)",
-				dol.Year, dol.Season, dol.Week, dol.Day, dol.Title)
+			psalmsJSON, err := json.Marshal(dol.Psalms)
+			if err != nil {
+				return err
+			}
+
+			lessonsJSON, err := json.Marshal(dol.Lessons)
+			if err != nil {
+				return err
+			}
+			_, err = db.Exec("INSERT INTO "+tablename+" (year, season, week, day, title, psalms, lessons) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+				dol.Year, dol.Season, dol.Week, dol.Day, dol.Title, psalmsJSON, lessonsJSON)
 			if err != nil {
 				fmt.Printf("Failed to insert data into %s: %v\n", jsonFile)
 			}
