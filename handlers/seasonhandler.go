@@ -25,6 +25,9 @@ func SeasonHandler(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if season == "after-pentecost" {
+		season = "The Season After Pentecost"
+	}
 	matchingEntries := []models.LiturgicalData{}
 	for _, entry := range seasonData {
 		if strings.EqualFold(entry.Season, season) {

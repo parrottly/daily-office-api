@@ -33,6 +33,9 @@ func PsalmsHandler(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if season == "after-pentecost" {
+		weekOfSeason = "Proper " + week
+	}
 	var matchingEntry *models.LiturgicalData
 	for _, entry := range psalmsData {
 		if strings.EqualFold(entry.Week, weekOfSeason) && strings.EqualFold(entry.Day, day) {

@@ -27,6 +27,9 @@ func WeekHandler(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if season == "after-pentecost" {
+		weekOfSeason = "Proper " + week
+	}
 	matchingEntries := []models.LiturgicalData{}
 	for _, entry := range weekData {
 		if strings.EqualFold(entry.Week, weekOfSeason) {

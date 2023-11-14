@@ -42,6 +42,9 @@ func LessonsHandler(resp http.ResponseWriter, req *http.Request) {
 		}
 	}
 
+	if season == "after-pentecost" {
+		weekOfSeason = "Proper " + week
+	}
 	if matchingEntry == nil {
 		http.Error(resp, "Lessons not found", http.StatusNotFound)
 		return
