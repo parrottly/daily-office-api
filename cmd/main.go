@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/a-h/templ"
 	"github.com/gorilla/mux"
 
 	"dolapi/handlers"
@@ -14,9 +14,7 @@ func main() {
 	r := mux.NewRouter()
 	port := ":3000"
 
-	r.HandleFunc("/", func(resp http.ResponseWriter, req *http.Request) {
-		fmt.Fprintln(resp, "running..")
-	})
+	r.Handle("/", templ.Handler(Home())).Methods("GET")
 
 	r.HandleFunc("/{table}/{season}/{week}/{day}/psalms", func(res http.ResponseWriter, req *http.Request) {
 		handlers.PsalmsHandler(res, req)

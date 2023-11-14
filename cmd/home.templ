@@ -1,0 +1,195 @@
+package main
+
+templ Home() {
+  <html>
+    <head>
+      <title>Daily Office API</title>
+      <style type="text/css">
+        body {
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        } 
+
+        .main-body {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+
+
+        #navbar a {
+          color: #fff;
+          text-decoration: none;
+          margin-right: 20px;
+        }
+
+        #main-doc {
+          padding: 20px;
+        }
+
+        .main-section {
+          margin-bottom: 30px;
+        } 
+
+        h1, h2, h3 {
+          color: #333;
+        } 
+
+        p {
+          color: #555;
+        } 
+
+        pre {
+          background-color: #f4f4f4;
+          padding: 10px;
+          border-radius: 5px;
+          overflow-x: auto;
+        }
+  
+        code {
+          color: #555;
+        }   
+
+        ul {
+          list-style-type: none;
+          padding: 0;
+        } 
+        strong {
+            font-size: 0.95em;
+        }
+        ul li {
+          margin-bottom: 5px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+        #navbar {
+          text-align: center;
+        }
+
+        #navbar a {
+          display: block;
+          margin: 10px 0;
+        }
+
+          .main-body {
+              padding: 10px;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="main-body">
+        <main id="main-doc">
+          <section class="main-section" id="intro">
+          <header>
+            <h1>Book of Common Prayer API</h1>
+          </header>
+          <p>
+            This is a simple API to get the daily readings from the <a href="https://www.bcponline.org/" target="_blank">Episcopal Book of Common Prayer</a>.
+            It is built using <a href="https://github.com/reubenlillie/daily-office" target="_blank">&#64;reubenlillie's JSON files</a>. I built this API 
+            mainly to learn more about Golang and also because there aren't many tools for Episcopalian developers out there (there are dozens of us!). If
+            you have any suggestions or issues. Feel free to create an issue in my <a href="https://github.com/seanthesheep/daily-office-api" target="_blank">Github repo.</a> 
+           <br />
+           <br />
+           May the peace of the Lord be always with you! - Sean 
+          </p>
+          </section>
+          <section class="examples" id="examples">
+        <h2>Endpoints</h2>
+
+        <hr/>
+        <h3>Year</h3>
+        <hr/>
+        <p>
+            Retrieves all readings for given year. Also retrieves readings for holy days and special occasions.
+        </p>
+        <ul>
+            <li><strong>year-one</strong></li>
+            <li><strong>year-two</strong></li>
+            <li><strong>holy-days</strong></li>
+            <li><strong>special-occasions</strong></li>
+        </ul>
+        <code>GET https://www.dolapi.com/year-one</code>
+      
+        <hr/>
+        <h3>Season</h3>
+        <hr/>
+        <p>
+            Retrieves all readings for a given season.
+        </p>
+        <ul>
+            <li><strong>advent</strong></li>
+            <li><strong>christmas</strong></li>
+            <li><strong>epiphany</strong></li>
+            <li><strong>lent</strong></li>
+            <li><strong>easter</strong></li>
+            <li><strong>pentacost</strong></li>
+        </ul>
+        <code>GET https://www.dolapi.com/year-one/easter</code>
+        
+        <hr/>
+        <h3>Week</h3>
+        <hr/>
+        <p>
+            Retrieves all readings for a given week. Written as a number. (e.g. Week 2 of Easter is /year-one/easter/2).
+        </p>
+        <code>GET https://www.dolapi.com/year-one/easter/2</code>
+        <hr/>
+        <h3>Day</h3>
+        <hr/>
+        <p>
+            Retrieves all readings for a given day. (e.g. "sunday", "tuesday", etc.)
+        </p>
+        <code>GET https://www.dolapi.com/year-one/easter/2/wednesday</code>
+        <hr/>
+        <h3>Psalms</h3>
+        <hr/>
+        <p>
+            Retrieves psalms for the specified table, season, week, and day.
+        </p>
+        <ul>
+            <li><strong>table:</strong> The table name (e.g., "one", "two").</li>
+            <li><strong>season:</strong> The season name (e.g., "Advent", "Lent").</li>
+            <li><strong>week:</strong> The week name (e.g., "Week of 1 Advent").</li>
+            <li><strong>day:</strong> The day name (e.g., "Sunday", "Monday").</li>
+        </ul>
+
+        <h3>Example</h3>
+        <p>Request:</p>
+        <pre>
+            <code>GET https://www.dolapi.com/year-one/advent/1/sunday/psalms</code>
+        </pre>
+        <p>Response:</p>
+        <pre>
+            <code>&#123;morning":["16","17"],"evening":["22"]&#125;</code>
+        </pre>
+        <hr/>
+        <h3>Lessons</h3>
+        <hr/>
+          <p>
+            Retrieves lessons for the specified table, season, week, and day.
+          </p>
+          <ul>
+            <li><strong>year:</strong> The year name (e.g., "year-one", "year-two").</li>
+            <li><strong>season:</strong> The season name (e.g., "advent", "lent").</li>
+            <li><strong>week:</strong> The week name (e.g., "1", "2").</li>
+            <li><strong>day:</strong> The day name (e.g., "Sunday", "Monday").</li>
+          </ul>
+
+          <h3>Example</h3>
+            <p>Request:</p>
+          <pre>
+            <code>GET https://www.dolapi.com/year-two/advent/2/monday/lessons</code>
+          </pre>
+          <p>Response:</p>
+          <pre>
+            <code>&#123;"first":"Isa 5:8&mdash;12, 18&mdash;23","second":"1 Thess 5:1&mdash;11","gospel":"Luke 21:20&mdash;28"&#125;</code>
+          </pre>
+         </section>
+        </main>
+      </div>
+    </body>
+  </html>
+}
