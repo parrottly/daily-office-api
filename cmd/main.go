@@ -14,7 +14,7 @@ func main() {
 	r := mux.NewRouter()
 	port := ":3000"
 
-	r.Handle("/", templ.Handler(Home())).Methods("GET")
+	r.Handle("/", templ.Handler(home())).Methods("GET")
 
 	r.HandleFunc("/{table}/{season}/{week}/{day}/psalms", func(res http.ResponseWriter, req *http.Request) {
 		handlers.PsalmsHandler(res, req)
