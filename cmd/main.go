@@ -12,7 +12,7 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	port := ":80"
+	port := ":9990"
 
 	r.Handle("/", templ.Handler(home())).Methods("GET")
 
