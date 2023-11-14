@@ -3,41 +3,26 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/mux"
 
 	"dolapi/internal"
-	"dolapi/models"
 )
 
-func SeasonHandler(resp http.ResponseWriter, req *http.Request) {
+func YearHandler(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-type", "application/json")
 
 	vars := mux.Vars(req)
 	tableName := vars["table"]
-	season := vars["season"]
 
 	file := internal.GetTable(tableName)
-	seasonData, err := internal.ReadJSONFile(file)
+	yearData, err := internal.ReadJSONFile(file)
 	if err != nil {
 		http.Error(resp, "Error reading JSON file", http.StatusInternalServerError)
 		return
 	}
 
-	matchingEntries := []models.LiturgicalData{}
-	for _, entry := range seasonData {
-		if strings.EqualFold(entry.Season, season) {
-			matchingEntries = append(matchingEntries, entry)
-		}
-	}
-
-	if matchingEntries == nil {
-		http.Error(resp, "Season not found", http.StatusNotFound)
-		return
-	}
-
-	resultJSON, err := json.Marshal(matchingEntries)
+	resultJSON, err := json.Marshal(yearData)
 	if err != nil {
 		http.Error(resp, "Error converting result to JSON", http.StatusInternalServerError)
 		return

@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -15,7 +16,7 @@ type Psalms struct {
 	Evening []string `json:"evening"`
 }
 
-func PsalmsJSON(resp http.ResponseWriter, req *http.Request) {
+func PsalmsHandler(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-type", "application/json")
 
 	vars := mux.Vars(req)
@@ -23,16 +24,9 @@ func PsalmsJSON(resp http.ResponseWriter, req *http.Request) {
 	season := vars["season"]
 	week := vars["week"]
 	day := vars["day"]
-	var file string
 	weekOfSeason := "Week of " + week + " " + season
 
-	if tableName == "year-one" {
-		file = "daily-office/json/readings/dol-year-1.json"
-	}
-	if tableName == "year-two" {
-		file = "daily-office/json/readings/dol-year-2.json"
-	}
-
+	file := internal.GetTable(tableName)
 	psalmsData, err := internal.ReadJSONFile(file)
 	if err != nil {
 		http.Error(resp, "Error reading JSON file", http.StatusInternalServerError)
@@ -41,7 +35,7 @@ func PsalmsJSON(resp http.ResponseWriter, req *http.Request) {
 
 	var matchingEntry *models.LiturgicalData
 	for _, entry := range psalmsData {
-		if entry.Week == weekOfSeason && entry.Day == day {
+		if strings.EqualFold(entry.Week, weekOfSeason) && strings.EqualFold(entry.Day, day) {
 			matchingEntry = &entry
 			break
 		}

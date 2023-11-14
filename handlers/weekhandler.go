@@ -11,43 +11,35 @@ import (
 	"dolapi/models"
 )
 
-type Lessons struct {
-	morning string
-	evening string
-	gospel  string
-}
-
-func LessonsHandler(resp http.ResponseWriter, req *http.Request) {
+func WeekHandler(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-type", "application/json")
 
 	vars := mux.Vars(req)
 	tableName := vars["table"]
 	season := vars["season"]
 	week := vars["week"]
-	day := vars["day"]
 	weekOfSeason := "Week of " + week + " " + season
 
 	file := internal.GetTable(tableName)
-	lessonsData, err := internal.ReadJSONFile(file)
+	weekData, err := internal.ReadJSONFile(file)
 	if err != nil {
 		http.Error(resp, "Error reading JSON file", http.StatusInternalServerError)
 		return
 	}
 
-	var matchingEntry *models.LiturgicalData
-	for _, entry := range lessonsData {
-		if strings.EqualFold(entry.Week, weekOfSeason) && strings.EqualFold(entry.Day, day) {
-			matchingEntry = &entry
-			break
+	matchingEntries := []models.LiturgicalData{}
+	for _, entry := range weekData {
+		if strings.EqualFold(entry.Week, weekOfSeason) {
+			matchingEntries = append(matchingEntries, entry)
 		}
 	}
 
-	if matchingEntry == nil {
-		http.Error(resp, "Lessons not found", http.StatusNotFound)
+	if matchingEntries == nil {
+		http.Error(resp, "Week not found", http.StatusNotFound)
 		return
 	}
 
-	resultJSON, err := json.Marshal(matchingEntry.Lessons)
+	resultJSON, err := json.Marshal(matchingEntries)
 	if err != nil {
 		http.Error(resp, "Error converting result to JSON", http.StatusInternalServerError)
 		return
