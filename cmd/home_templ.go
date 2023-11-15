@@ -100,6 +100,10 @@ func home() templ.Component {
           text-align: center;
         }
 
+        pre {
+            font-size: 2em;
+          }
+
         #navbar a {
           display: block;
           margin: 10px 0;
