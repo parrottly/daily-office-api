@@ -33,7 +33,9 @@ func LessonsHandler(resp http.ResponseWriter, req *http.Request) {
 		http.Error(resp, "Error reading JSON file", http.StatusInternalServerError)
 		return
 	}
-
+	if season == "after-pentecost" {
+		weekOfSeason = "Proper " + week
+	}
 	var matchingEntry *models.LiturgicalData
 	for _, entry := range lessonsData {
 		if strings.EqualFold(entry.Week, weekOfSeason) && strings.EqualFold(entry.Day, day) {
@@ -42,9 +44,6 @@ func LessonsHandler(resp http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	if season == "after-pentecost" {
-		weekOfSeason = "Proper " + week
-	}
 	if matchingEntry == nil {
 		http.Error(resp, "Lessons not found", http.StatusNotFound)
 		return
