@@ -47,6 +47,7 @@ func home() templ.Component {
           max-width: 800px;
           margin: 0 auto;
           padding: 20px;
+          font-size: 1.5rem;
         }
 
 
@@ -94,25 +95,6 @@ func home() templ.Component {
           margin-bottom: 5px;
         }
 
-        /* Responsive Styles */
-        @media (max-width: 600px) {
-        #navbar {
-          text-align: center;
-        }
-
-        pre {
-            font-size: 2em;
-          }
-
-        #navbar a {
-          display: block;
-          margin: 10px 0;
-        }
-
-          .main-body {
-              padding: 10px;
-          }
-        }
       `
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 		if templ_7745c5c3_Err != nil {
@@ -212,7 +194,7 @@ func home() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var14 := `May the peace of the Lord be always with you! - Sean `
+		templ_7745c5c3_Var14 := `May the peace of the Lord be always with you! `
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var14)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
