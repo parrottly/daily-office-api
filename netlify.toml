@@ -1,0 +1,17 @@
+[build]
+  base = "."
+  publish = "."
+  command = "go build -o dol-api cmd/main.go"
+
+[build.environment]
+  GO_VERSION = "1.21"
+
+[[functions]]
+  directory = "functions"
+
+[context.production]
+  command = "go build -o dol-api cmd/main.go"
+
+[functions."dol-api"]
+  directory = "."
+  included_files = ["daily-office/**", "dol-api"]
