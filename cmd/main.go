@@ -16,6 +16,15 @@ func main() {
 
 	r.Handle("/", templ.Handler(home())).Methods("GET")
 
+	// Today's readings endpoints
+	r.HandleFunc("/today", func(res http.ResponseWriter, req *http.Request) {
+		handlers.TodayHandler(res, req)
+	}).Methods("GET")
+	
+	r.HandleFunc("/today/lessons", func(res http.ResponseWriter, req *http.Request) {
+		handlers.TodayLessonsHandler(res, req)
+	}).Methods("GET")
+
 	r.HandleFunc("/{table}/{season}/{week}/{day}/psalms", func(res http.ResponseWriter, req *http.Request) {
 		handlers.PsalmsHandler(res, req)
 	}).Methods("GET")
