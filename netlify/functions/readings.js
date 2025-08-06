@@ -91,42 +91,14 @@ exports.handler = async (event, context) => {
     
     const { tableName, season, week, dayOfWeek } = getTodaysLiturgicalDate();
     
-    let filename;
+    let data;
     if (tableName === 'year-one') {
-      filename = 'dol-year-1.min.json';
+      data = require('./dol-year-1.js');
     } else if (tableName === 'year-two') {
-      filename = 'dol-year-2.min.json';
+      data = require('./dol-year-2.js');
     } else {
-      filename = 'dol-year-1.min.json';
+      data = require('./dol-year-1.js');
     }
-    
-    // Try to read the JSON file from the same directory as this function
-    const filePath = path.join(__dirname, filename);
-    
-    console.log('Trying to read:', filePath);
-    console.log('Directory contents:', fs.readdirSync(__dirname));
-    
-    if (!fs.existsSync(filePath)) {
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ 
-          error: 'JSON file not found',
-          debug: { 
-            filePath, 
-            tableName, 
-            season, 
-            week, 
-            dayOfWeek, 
-            __dirname,
-            directoryContents: fs.readdirSync(__dirname)
-          }
-        })
-      };
-    }
-    
-    const rawData = fs.readFileSync(filePath, 'utf8');
-    const data = JSON.parse(rawData);
     
     const todaysReadings = findTodaysReadings(data, season, week, dayOfWeek);
     
