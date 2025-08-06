@@ -70,6 +70,7 @@ function findTodaysReadings(data, season, week, dayOfWeek) {
 }
 
 exports.handler = async (event, context) => {
+  console.log('Function started - v2');
   try {
     // Set CORS headers
     const headers = {
