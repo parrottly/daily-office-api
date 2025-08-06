@@ -105,35 +105,21 @@ exports.handler = async (event, context) => {
       filename = 'dol-year-1.min.json'; // fallback
     }
     
-    // Read the JSON file - try multiple possible paths
-    const possiblePaths = [
-      path.join(process.cwd(), 'daily-office', 'json', 'readings', filename),
-      path.join(__dirname, '..', '..', 'daily-office', 'json', 'readings', filename),
-      path.join('/opt/build/repo', 'daily-office', 'json', 'readings', filename)
-    ];
+    // Read the JSON file from the functions directory
+    const filePath = path.join(__dirname, filename);
     
-    let filePath = null;
-    let rawData = null;
-    
-    for (const tryPath of possiblePaths) {
-      if (fs.existsSync(tryPath)) {
-        filePath = tryPath;
-        break;
-      }
-    }
-    
-    if (!filePath) {
+    if (!fs.existsSync(filePath)) {
       return {
         statusCode: 500,
         headers,
         body: JSON.stringify({ 
           error: 'Reading data file not found',
-          debug: { possiblePaths, tableName, season, week, dayOfWeek }
+          debug: { filePath, tableName, season, week, dayOfWeek, __dirname }
         })
       };
     }
     
-    rawData = fs.readFileSync(filePath, 'utf8');
+    const rawData = fs.readFileSync(filePath, 'utf8');
     const data = JSON.parse(rawData);
     
     // Find today's readings
