@@ -58,11 +58,25 @@ function findTodaysReadings(data, season, week, dayOfWeek) {
     weekOfSeason = `Proper ${week}`;
   }
   
-  const entry = data.find(item => 
-    item.week.toLowerCase() === weekOfSeason.toLowerCase() && 
-    item.day.toLowerCase() === dayOfWeek.toLowerCase()
-  );
+  console.log('Looking for:', { weekOfSeason, dayOfWeek });
   
+  const entry = data.find(item => {
+    if (!item || !item.week || !item.day) {
+      console.log('Skipping invalid item:', item);
+      return false;
+    }
+    
+    const weekMatch = item.week.toLowerCase() === weekOfSeason.toLowerCase();
+    const dayMatch = item.day.toLowerCase() === dayOfWeek.toLowerCase();
+    
+    if (weekMatch && dayMatch) {
+      console.log('Found match:', item);
+    }
+    
+    return weekMatch && dayMatch;
+  });
+  
+  console.log('Final result:', entry);
   return entry;
 }
 
@@ -90,6 +104,8 @@ exports.handler = async (event, context) => {
     }
     
     const { tableName, season, week, dayOfWeek } = getTodaysLiturgicalDate();
+    
+    console.log('Calculated liturgical date:', { tableName, season, week, dayOfWeek });
     
     let data;
     if (tableName === 'year-one') {
